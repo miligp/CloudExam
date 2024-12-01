@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie de Photos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Barre de navigation -->
+    {% include 'base.html' %}
+
+    <!-- Conteneur de la galerie -->
+    <div class="grid-container">
+        {% for photo in photos %}
+            <div class="grid-item">
+                <!-- Image -->
+                <img src="{{ photo.file_url }}" alt="Photo non disponible">
+                
+                <!-- Bouton Supprimer pour l'utilisateur propriétaire -->
+                {% if photo.user_id == current_user %}
+                    <form action="{{ url_for('delete_photo', photo_id=photo.id) }}" method="POST" style="margin-top: 10px;">
+                        <button type="submit" class="btn-delete">Supprimer</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
